@@ -19,5 +19,12 @@ namespace MMABooksEFClasses.Models
 
         public virtual State StateNavigation { get; set; } = null!;
         public virtual ICollection<Invoice> Invoices { get; set; }
+
+        public override string ToString()
+        {
+            return CustomerId + ", " + Name + ", " + Address + ", " + City + ", " + State + ", " + ZipCode;
+        }
+        //added string override from MarisModels to Customers.cs so customers print properly
+
     }
 }

@@ -1,5 +1,8 @@
-﻿using System;
+﻿using MMABooksEFClasses.MarisModels;
+using System;
 using System.Collections.Generic;
+using System.Reflection.Emit;
+using System.Xml.Linq;
 
 namespace MMABooksEFClasses.Models
 {
@@ -16,5 +19,11 @@ namespace MMABooksEFClasses.Models
         public int OnHandQuantity { get; set; }
 
         public virtual ICollection<Invoicelineitem> Invoicelineitems { get; set; }
+
+        public override string ToString()
+        {
+            return ProductCode + ", " + Description + ", " + UnitPrice + ", " + OnHandQuantity;
+        }
+        //copied from Customer.cs for printing
     }
 }

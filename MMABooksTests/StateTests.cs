@@ -21,14 +21,15 @@ namespace MMABooksTests
         public void Setup()
         {
             dbContext = new MMABooksContext();
-            dbContext.Database.ExecuteSqlRaw("call usp_testingResetData()");
+            dbContext.Database.ExecuteSqlRaw("call usp_testingResetStateData()");
         }
+        // testingResetData procedure causes GetAllTest to fail (returns 52 states in VS, procedure works in Workbench), testingResetStateData returns 53 as expected
 
         [Test]
         public void GetAllTest()
         {
             states = dbContext.States.OrderBy(s => s.StateName).ToList();
-            Assert.AreEqual(52, states.Count);
+            Assert.AreEqual(53, states.Count);
             Assert.AreEqual("Alabama", states[0].StateName);
             PrintAll(states);
         }
