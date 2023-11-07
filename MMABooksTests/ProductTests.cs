@@ -98,10 +98,6 @@ namespace MMABooksTests
             dbContext.Products.Add(p);
             dbContext.SaveChanges();
             Assert.IsNotNull(dbContext.Products.Find(p.ProductCode));
-
-            //cleanup
-            dbContext.Products.Remove(p);
-            dbContext.SaveChanges();
         }
 
         [Test]
