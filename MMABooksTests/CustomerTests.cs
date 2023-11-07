@@ -5,6 +5,7 @@ using System;
 using NUnit.Framework;
 using Microsoft.EntityFrameworkCore;
 using MMABooksEFClasses.Models;
+//deleted "using... MarisModels", was causing ambiguous reference issue
 
 namespace MMABooksTests
 {
@@ -82,19 +83,39 @@ namespace MMABooksTests
         [Test]
         public void DeleteTest()
         {
-
+            c = dbContext.Customers.Find(1);
+            dbContext.Customers.Remove(c);
+            dbContext.SaveChanges();
+            Assert.IsNull(dbContext.Customers.Find(1));
         }
 
         [Test]
         public void CreateTest()
         {
-
+            c = new Customer();
+            c.Name = "Test Customer";
+            c.Address = "Test Address";
+            c.City = "Test City";
+            c.State = "OR";
+            c.ZipCode = "10001";
+            dbContext.Customers.Add(c);
+            dbContext.SaveChanges();
+            Assert.IsNotNull(dbContext.Customers.Find(c.CustomerId));
         }
 
         [Test]
         public void UpdateTest()
         {
-
+            c = dbContext.Customers.Find(1);
+            c.Name = "Test Customer";
+            c.Address = "Test Address";
+            c.City = "Test City";
+            c.State = "OR";
+            c.ZipCode = "10001";
+            dbContext.Customers.Update(c);
+            dbContext.SaveChanges();          
+            dbContext.Customers.Find(c.CustomerId);
+            Assert.AreEqual("Test Customer", c.Name);
         }
 
         public void PrintAll(List<Customer> customers)
@@ -103,7 +124,6 @@ namespace MMABooksTests
             {
                 Console.WriteLine(c);
             }
-        }
-        
+        }     
     }
 }

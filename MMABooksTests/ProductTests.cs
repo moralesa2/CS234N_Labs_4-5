@@ -5,6 +5,7 @@ using System;
 using NUnit.Framework;
 using Microsoft.EntityFrameworkCore;
 using MMABooksEFClasses.Models;
+//deleted "using... MarisModels", was causing ambiguous reference issue
 
 namespace MMABooksTests
 {
@@ -80,19 +81,40 @@ namespace MMABooksTests
         [Test]
         public void DeleteTest()
         {
-
+            p = dbContext.Products.Find("MDOM");
+            dbContext.Products.Remove(p);
+            dbContext.SaveChanges();
+            Assert.IsNull(dbContext.Products.Find("MDOM"));
         }
 
         [Test]
         public void CreateTest()
         {
+            p = new Product();
+            p.ProductCode = "T3ST";
+            p.Description = "Test Description";
+            p.UnitPrice = 10m;
+            p.OnHandQuantity = 101;
+            dbContext.Products.Add(p);
+            dbContext.SaveChanges();
+            Assert.IsNotNull(dbContext.Products.Find(p.ProductCode));
 
+            //cleanup
+            dbContext.Products.Remove(p);
+            dbContext.SaveChanges();
         }
 
         [Test]
         public void UpdateTest()
         {
-
+            p = dbContext.Products.Find("A4CS");
+            p.Description = "Test Description";
+            p.UnitPrice = 10m;
+            p.OnHandQuantity = 101;
+            dbContext.Products.Update(p);
+            dbContext.SaveChanges();
+            p = dbContext.Products.Find("A4CS");
+            Assert.AreEqual("Test Description", p.Description);
         }
 
         public void PrintAll(List<Product> products)
